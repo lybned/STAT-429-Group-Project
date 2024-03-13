@@ -67,3 +67,15 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 
 ### Model 4 Testing Results
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%204%20Result.PNG)
+
+
+## Final Model (Model 2)
+
+We decide to pick model 2 as the final model because it does NOT have collinearity issues and it performance on the testing dataset are very good. It also the simplest model out of all the models we have.
+
+
+## Anova Test with Model 1 and 2
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Anova%20m1%20m2.PNG)
+
+## Marginal Plots of Model 2
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Marginal%20Plots.png)
