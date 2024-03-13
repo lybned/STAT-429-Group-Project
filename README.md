@@ -35,6 +35,6 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 ### Model 1 VIF
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201%20Vif.PNG)
 
-### Testing Results
+### Model 1 Testing Results
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201%20Result.PNG)
 
