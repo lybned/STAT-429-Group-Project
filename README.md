@@ -30,7 +30,7 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 75% of the dataset are used for training while the other 25% are used to test the final logistic regression model.
 
 ## Model 1
-<img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201.PNG" width="48">
+<img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201.PNG" width="200">
 
 ### Model 1 VIF
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201%20Vif.PNG)
