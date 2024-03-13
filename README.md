@@ -46,5 +46,15 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Vif.PNG)
 
 ### Model 2 Testing Results
-![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Result.PNG)
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Result.PNG)\
+
+
+## Model 3 (Backward AIC from Model 1)
+<img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%203.PNG" width="500">
+
+### Model 3 VIF
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%203%20Vif.PNG)
+
+### Model 3 Testing Results
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%203%20Result.PNG)
 
