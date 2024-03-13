@@ -1,0 +1,283 @@
+---
+title: "Group Projectled"
+output: html_document
+date: "2023-11-16"
+---
+```{r}
+library(car)
+library(carData)
+library(leaps)
+library(caret)
+```
+
+
+```{r}
+setwd("C:\\Users\\ned20\\Documents\\GitHub\\STAT-429-Individual-Project")
+LifeSpan <- read.table("Life-Expectancy-Data-Updated.csv", header=TRUE,sep = ",")
+
+LifeSpan[1:5,]
+par(mfrow=c(2,3))
+
+LifeSpan <- LifeSpan[,!(names(LifeSpan) %in% c("Country","Region", "Year"))]
+LifeSpan
+```
+```{r}
+#Read the fixed grouping from the file
+#data <- read.csv("Fixed Group.txt", header = FALSE)
+
+#trainIndex <- as.numeric(unlist(data))
+
+```
+
+```{r}
+#This line will generate a random train and test set.
+NewLifeSpan_total <- LifeSpan
+set.seed(2023)
+trainIndex <- createDataPartition(NewLifeSpan_total$Economy_status_Developed, p = 0.75, list = FALSE)
+```
+
+```{r}
+
+NewLifeSpan <- NewLifeSpan_total[trainIndex, ]
+NewLifeSpan_Test <- NewLifeSpan_total[-trainIndex, ]
+
+summary(NewLifeSpan_total$Economy_status_Developed)
+summary(NewLifeSpan$Economy_status_Developed)
+summary(NewLifeSpan_Test$Economy_status_Developed)
+
+#NewLifeSpan_Test$Infant_deaths_New <- NewLifeSpan_Test$Infant_deaths
+#NewLifeSpan_Test$Under_five_deaths_New <- NewLifeSpan_Test$Under_five_deaths     #***
+#NewLifeSpan_Test$Adult_mortality_New <- NewLifeSpan_Test$Adult_mortality          #.
+                                                                              #***
+#NewLifeSpan_Test$Measles_New <- NewLifeSpan_Test$Measles                        #***
+#NewLifeSpan_Test$Hepatitis_B_New <- NewLifeSpan_Test$Hepatitis_B 
+#NewLifeSpan_Test$BMI_New <- NewLifeSpan_Test$BMI 
+#NewLifeSpan_Test$Polio_New <- NewLifeSpan_Test$Polio 
+#NewLifeSpan_Test$Diphtheria_New <- NewLifeSpan_Test$Diphtheria
+#NewLifeSpan_Test$Incidents_HIV_New <- NewLifeSpan_Test$Incidents_HIV                #***
+#NewLifeSpan_Test$GDP_per_capita_New <- NewLifeSpan_Test$GDP_per_capita              #**
+#NewLifeSpan_Test$Population_mln_New <- NewLifeSpan_Test$Population_mln              #**
+#NewLifeSpan_Test$Thinness_ten_nineteen_years_New <- NewLifeSpan_Test$Thinness_ten_nineteen_years 
+#NewLifeSpan_Test$Thinness_five_nine_years_New <- NewLifeSpan_Test$Thinness_five_nine_years
+#NewLifeSpan_Test$Schooling_New <- NewLifeSpan_Test$Schooling                 #***
+#NewLifeSpan_Test$Life_expectancy_New <- NewLifeSpan_Test$Life_expectancy           #***
+
+barplot(table(NewLifeSpan_total$Economy_status_Developed), main="Country Status (All data)",
+   xlab="0 -> Developing, 1 -> Developed")
+barplot(table(NewLifeSpan$Economy_status_Developed), main="Country Status (Training set)",
+   xlab="0 -> Developing, 1 -> Developed")
+barplot(table(NewLifeSpan_Test$Economy_status_Developed), main="Country Status (Test set)",
+   xlab="0 -> Developing, 1 -> Developed")
+```
+```{r}
+
+for (col in names(NewLifeSpan)) {
+  if (col != "Species") {
+    boxplot(NewLifeSpan[, col] ~ NewLifeSpan$Economy_status_Developed, xlab = "0 developing country, 1 developed country", ylab = col,
+            main = paste("Boxplot of", col, "by Species"))
+  }
+}
+```
+
+
+```{r}
+
+
+
+```
+
+
+
+```{r}
+
+hist(NewLifeSpan$GDP_per_capita,col="blue")
+
+hist(NewLifeSpan$Population_mln,col="blue")
+
+hist(NewLifeSpan$Schooling,col="blue")
+
+hist(NewLifeSpan$Measles,col="blue")
+
+hist(NewLifeSpan$Hepatitis_B,col="blue")
+
+hist(NewLifeSpan$Infant_deaths,col="blue")
+
+hist(NewLifeSpan$Life_expectancy,col="blue")
+```
+
+
+
+```{r}
+# Model 1, all predictors
+n<-length(NewLifeSpan$Economy_status_Developed)
+m1<-glm(Economy_status_Developed~Infant_deaths+Under_five_deaths+Adult_mortality+Alcohol_consumption+Hepatitis_B+Measles+BMI+Polio+Diphtheria+Incidents_HIV+GDP_per_capita+Population_mln+Thinness_ten_nineteen_years+Thinness_five_nine_years+Schooling+Life_expectancy,data = NewLifeSpan,family=binomial)
+summary(m1)
+#mmps(m1)
+vif(m1)
+```
+```{r}
+#Power Transformation on ALL PREDICTORS
+summary(powerTransform(cbind(Infant_deaths, Under_five_deaths, Adult_mortality, Hepatitis_B, Measles, BMI, Polio, Diphtheria, Incidents_HIV, GDP_per_capita, Population_mln, Thinness_ten_nineteen_years, Thinness_five_nine_years, Schooling, Life_expectancy)~1,NewLifeSpan))
+
+```
+
+```{r}
+
+#Transform 
+NewLifeSpan$Infant_deaths_New <- NewLifeSpan$Infant_deaths ^ -0.04
+NewLifeSpan$Under_five_deaths_New <- NewLifeSpan$Under_five_deaths ^ -0.11     #***
+NewLifeSpan$Adult_mortality_New <- NewLifeSpan$Adult_mortality ^ 0.2          #.
+                                                                              #***
+NewLifeSpan$Measles_New <- NewLifeSpan$Measles ^ 2.59                         #***
+NewLifeSpan$Hepatitis_B_New <- NewLifeSpan$Hepatitis_B ^ 4.58
+NewLifeSpan$BMI_New <- log(NewLifeSpan$BMI)
+NewLifeSpan$Polio_New <- NewLifeSpan$Polio ^ 4.55
+NewLifeSpan$Diphtheria_New <- NewLifeSpan$Diphtheria ^ 4.60
+NewLifeSpan$Incidents_HIV_New <- log(NewLifeSpan$Incidents_HIV)                   #***
+NewLifeSpan$GDP_per_capita_New <- NewLifeSpan$GDP_per_capita ^ -0.05              #**
+NewLifeSpan$Population_mln_New <- NewLifeSpan$Population_mln ^ 0.03              #**
+NewLifeSpan$Thinness_ten_nineteen_years_New <- NewLifeSpan$Thinness_ten_nineteen_years ^ 0.07
+NewLifeSpan$Thinness_five_nine_years_New <- NewLifeSpan$Thinness_five_nine_years ^ 0.08
+NewLifeSpan$Schooling_New <- NewLifeSpan$Schooling ^ 0.89                   #***
+NewLifeSpan$Life_expectancy_New <- NewLifeSpan$Life_expectancy ^ 3.66          #***
+
+
+# Model mp, all  predictors but all non-significant predictors get a transformation
+mp<-glm(Economy_status_Developed~Infant_deaths_New+Under_five_deaths+Adult_mortality_New+Alcohol_consumption+Hepatitis_B_New+Measles+BMI_New+Polio_New+Diphtheria_New+Incidents_HIV+GDP_per_capita+Population_mln+Thinness_ten_nineteen_years_New+Thinness_five_nine_years_New+Schooling+Life_expectancy,data = NewLifeSpan,family=binomial)
+summary(mp)
+#mmps(mp)
+
+```
+
+```{r}
+
+#Model mpp, all predictors but all transformed
+mpp <-glm(Economy_status_Developed~Infant_deaths_New+Under_five_deaths_New+Adult_mortality_New+  Alcohol_consumption+  Hepatitis_B_New+  Measles_New+  BMI_New+  Polio_New+  Diphtheria_New+  Incidents_HIV_New+GDP_per_capita_New+Population_mln_New+Thinness_ten_nineteen_years_New+  Thinness_five_nine_years_New+Schooling_New+Life_expectancy_New,data=NewLifeSpan,family=binomial)
+summary(mpp)
+```
+
+```{r}
+#Backward BIC
+backBIC<-step(m1,direction="backward",k=log(n))
+```
+
+```{r}
+
+#Model 2, backward BIC result
+m2<-glm(Economy_status_Developed ~ Alcohol_consumption + Incidents_HIV + Measles +
+    GDP_per_capita + Schooling + Life_expectancy,data = NewLifeSpan,family=binomial)
+summary(m2)
+#mmps(m2)
+vif(m2)
+```
+
+```{r}
+
+#Backward AIC
+backwardAIC<-step(m1,direction="backward")
+
+```
+
+
+```{r}
+
+#Backward AIC Result
+m2.a<-glm(Economy_status_Developed ~ Under_five_deaths + Adult_mortality + 
+    Alcohol_consumption + Measles + Incidents_HIV + GDP_per_capita + 
+    Population_mln + Thinness_five_nine_years + Schooling + Life_expectancy,data = NewLifeSpan,family=binomial)
+
+summary(m2.a)
+
+vif(m2.a)
+```
+
+```{r}
+
+#All subset variable selection
+variableSelection <-regsubsets(Economy_status_Developed~Infant_deaths+Under_five_deaths+Adult_mortality+Alcohol_consumption+Hepatitis_B+Measles+BMI+Polio+Diphtheria+Incidents_HIV+GDP_per_capita+Population_mln+Thinness_ten_nineteen_years+Thinness_five_nine_years+Schooling+Life_expectancy, data = NewLifeSpan, nvmax = ncol(NewLifeSpan) - 1)
+
+selectionSummary <- summary(variableSelection)
+
+selectionSummary
+
+
+```
+
+```{r}
+#par(mfrow=c(2,2))
+#plot(selectionSummary$rss,xlab="Number of varialbes",ylab="SSE",type="l", xaxt = "n")
+#points(which.min(selectionSummary$rss),selectionSummary$rss[which.min(selectionSummary$rss)],col="red",cex=2,pch=20)
+#axis(1, at = seq(1, 16, by = 2))
+
+#plot(selectionSummary$adjr2,xlab="Number of variables",ylab="Adjusted R^2",type="l")
+#points(which.max(selectionSummary$adjr2),selectionSummary$adjr2[which.max(selectionSummary$adjr2)],col="red",cex=2,pch=20)
+#axis(1, at = seq(1, 16, by = 2))
+
+plot(selectionSummary$bic,xlab="Number of variables",ylab="BIC",type="l")
+points(which.min(selectionSummary$bic),selectionSummary$bic[which.min(selectionSummary$bic)],col="red",cex=2,pch=20)
+axis(1, at = seq(1, 16, by = 2))
+
+#plot(selectionSummary$cp,xlab="Number of variables",ylab="Cp",type="l")
+#points(which.min(selectionSummary$cp),selectionSummary$cp[which.min(selectionSummary$cp)],col="red",cex=2,pch=20)
+#axis(1, at = seq(1, 16, by = 2))
+```
+
+
+
+
+
+```{r}
+# Model m2.b, the BIC result after all subset selection.
+m2.b<-glm(Economy_status_Developed ~ Infant_deaths + Under_five_deaths + Alcohol_consumption + Hepatitis_B + BMI  + Diphtheria + GDP_per_capita+ Thinness_five_nine_years + Schooling + Life_expectancy ,data = NewLifeSpan,family=binomial)
+
+summary(m2.b)
+
+vif(m2.b)
+```
+
+```{r}
+#Prediction testing
+test_predictions <- predict(m2.b , NewLifeSpan_Test, type = "response")
+
+# Assuming 'outcome' is the actual outcome variable in your testing dataset
+actual_outcomes <- NewLifeSpan_Test$Economy_status_Developed
+
+# Evaluate the predictions (e.g., calculate accuracy)
+predicted_classes <- ifelse(test_predictions > 0.5, 1, 0)
+
+accuracy <- mean(predicted_classes == actual_outcomes)
+conf_matrix <- table(actual_outcomes, predicted_classes)
+accuracy
+conf_matrix
+```
+
+```{r}
+
+anova(m1,m2,test="Chisq")
+
+```
+
+
+```{r}
+vif(m1)
+vif(m2)
+vif(m2.a)
+vif(m2.b)
+vif(mp)
+vif(mpp)
+```
+
+
+```{r}
+NewLifeSpan$CombineLife <- NewLifeSpan$Life_expectancy*NewLifeSpan$Adult_mortality
+#Anova test here
+m2.ab<-glm(Economy_status_Developed ~ Under_five_deaths + 
+    Alcohol_consumption + Measles + Incidents_HIV + GDP_per_capita + 
+    Population_mln + Thinness_five_nine_years + Schooling + CombineLife,data = NewLifeSpan,family=binomial)
+summary(m2.ab)
+
+vif(m2.ab)
+```
+```{r}
+mmps(m2)
+```
