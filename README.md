@@ -1,5 +1,8 @@
 # Predicting Whether a Country is Developed Or Developing based on Different Factors
 
+## Made by
+Ned Liu, Shaohuan Xia, Philip Davey
+
 ## Data Source
 https://www.kaggle.com/datasets/lashagoch/life-expectancy-who-updated
 
