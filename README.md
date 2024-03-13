@@ -58,3 +58,12 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 ### Model 3 Testing Results
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%203%20Result.PNG)
 
+
+## Model 4 (All Subset Selection from Model 1)
+<img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%204.PNG" width="500">
+
+### Model 4 VIF
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%204%20Vif.PNG)
+
+### Model 4 Testing Results
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%204%20Result.PNG)
