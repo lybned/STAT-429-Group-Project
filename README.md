@@ -12,7 +12,7 @@ https://www.kaggle.com/datasets/lashagoch/life-expectancy-who-updated
 - Adult_mortality: Deaths of adults per 1000 population
 - Alcohol_consumption: Alcohol consumption that is recorded in liters of pure alcohol per capita with 15+ years old
 - Hepatitis_B: % of coverage of Hepatitis B (HepB3) immunization among 1-year-olds.
-- Measles: % of coverage of Measles containing vaccine first dose (MCV1) immunization among 1-year-olds
+- Measles: % of coverage of measles-containing vaccine first dose (MCV1) immunization among 1-year-olds
 - BMI
 - Polio: % of coverage of Polio (Pol3) immunization among 1-year-olds.
 - Diphtheria: % of coverage of Diphtheria tetanus toxoid and pertussis (DTP3) immunization among 1-year-olds.
@@ -24,13 +24,13 @@ https://www.kaggle.com/datasets/lashagoch/life-expectancy-who-updated
 - Schooling: Average years that people aged 25+ spent in formal education
 - Life_expectancy: Average life expectancy of both genders in different years from 2010 to 2015
 
-For the country status, 1 represents developed country and 0 represents developing country.
+For the country status, 1 represents a developed country and 0 represents a developing country.
 
 ## Data Cleaning
-The dataset is already cleaned by the creator. All null or 0 value are filled in.
+The dataset is already cleaned by the creator. All null or 0 values are filled in.
 
 ## Train Test Split
-75% of the dataset are used for training while the other 25% are used to test the final logistic regression model.
+75% of the dataset is used for training while the other 25% is used to test the final logistic regression model.
 
 ## Model 1
 <img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201.PNG" width="500">
@@ -74,7 +74,7 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 
 ## Final Model (Model 2)
 
-We decide to pick model 2 as the final model because it does NOT have collinearity issues and it performance on the testing dataset are very good. It also the simplest model out of all the models we have.
+We decided to pick model 2 as the final model because it does NOT have collinearity issues, and its performance on the testing dataset is very good. It is also the simplest model out of all the models we have.
 
 
 ## Anova Test with Model 1 and 2
