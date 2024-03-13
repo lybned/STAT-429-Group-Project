@@ -38,3 +38,13 @@ The dataset is already cleaned by the creator. All null or 0 value are filled in
 ### Model 1 Testing Results
 ![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%201%20Result.PNG)
 
+
+## Model 2 (Backward BIC from Model 1)
+<img src="https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202.PNG" width="500">
+
+### Model 2 VIF
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Vif.PNG)
+
+### Model 2 Testing Results
+![alt text](https://github.com/lybned/STAT-429-Group-Project/blob/main/Group%20Project/Model%202%20Result.PNG)
+
